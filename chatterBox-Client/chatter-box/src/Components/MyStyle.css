@@ -3,7 +3,7 @@
 .main-container
 {
 
-    background-color: wheat;
+    background-color: white;
     height: 90vh;
     width: 90vw;
     display: flex;
@@ -14,11 +14,55 @@
 .side-bar{
     
     flex : 0.3;
-    border: 3px solid greenyellow;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.sb-header{
+
+    background-color: aliceblue;
+    border-radius: 15px;
+    padding: 10px 5px;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.sb-search{
+
+    background-color: aliceblue;
+    border-radius: 15px;
+    padding: 10px 5px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+
+}
+
+.search-box{
+
+    outline-width: 0;
+    border: none;
+    margin-left: 10px;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    padding: 10px;
+
+}
+
+.sb-conversations{
+
+    background-color: aliceblue;
+    border-radius: 15px;
+    padding: 10px 5px;
+    margin: 10px;
+    flex: 1;
+
 }
 
 .work-Area{
     
     flex: 0.7;
-    border: 3px solid aquamarine;
 }
