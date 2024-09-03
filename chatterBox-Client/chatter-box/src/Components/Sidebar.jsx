@@ -1,5 +1,9 @@
 import React from 'react'
+
 import './MyStyle.css'
+
+import ConversationsItem from './ConversationsItem';
+
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -11,8 +15,6 @@ import { IconButton } from '@mui/material';
 
 const Sidebar = () => {
   return (
-
-
 
     <div className='side-bar'>
     
@@ -56,13 +58,11 @@ const Sidebar = () => {
 
     <div className="sb-conversations">
 
-      ChatterBox
-      
-    </div>
-    
-    </div>
+      <ConversationsItem />
 
+    </div>
     
+    </div>
 
   )
 }
