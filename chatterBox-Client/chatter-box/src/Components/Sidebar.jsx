@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import './MyStyle.css'
 
@@ -14,36 +14,55 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from '@mui/material';
 
 const Sidebar = () => {
+  const [conversations, SetConversations] = useState([
+    {
+      name: "Ameha",
+      lastMessage: "last Message#1",
+      timeStamp: "Yesterday"
+    },
+    {
+      name: "Test2",
+      lastMessage: "last Message#1",
+      timeStamp: "Today"
+    },
+    {
+      name: "Test3",
+      lastMessage: "last Message#1",
+      timeStamp: "LastWeek"
+    }
+
+  ]);
   return (
+
 
     <div className='side-bar'>
     
-    <div className="sb-header">
+      <div className="sb-header">
 
-      <div>
-        <IconButton>
-          <AccountCircleIcon />
-        </IconButton>
-      </div>
+        <div>
+          <IconButton>
+            <AccountCircleIcon />
+          </IconButton>
+        </div>
 
 
-      <div>
-        <IconButton>
-          <PersonAddIcon />
-        </IconButton>
+        <div>
+          <IconButton>
+            <PersonAddIcon />
+          </IconButton>
 
-        <IconButton>
-          <GroupAddIcon />
-        </IconButton>
+          <IconButton>
+            <GroupAddIcon />
+          </IconButton>
 
-        <IconButton>
-          <AddCircleIcon />
-        </IconButton>
+          <IconButton>
+            <AddCircleIcon />
+          </IconButton>
 
-        <IconButton>
-          <NightlightIcon />
-        </IconButton>
-      </div>
+          <IconButton>
+            <NightlightIcon />
+          </IconButton>
+        </div>
 
     </div>
 
@@ -58,7 +77,9 @@ const Sidebar = () => {
 
     <div className="sb-conversations">
 
-      <ConversationsItem />
+      {conversations.map((conversation) => {
+        return <ConversationsItem props={conversation} />
+      } )}
 
     </div>
     
