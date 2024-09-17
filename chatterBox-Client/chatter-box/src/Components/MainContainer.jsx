@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './MyStyle.css'
 import Sidebar from './Sidebar'
 import ChatArea from './ChatArea'
+import Greetings from './Greetings'
 
 
 const MainContainer = () => {
@@ -20,7 +21,8 @@ const MainContainer = () => {
     <div className='main-container'>
 
     <Sidebar />
-    <ChatArea props={conversations[0]} />
+    {/* <ChatArea props={conversations[0]} /> */}
+    <Greetings/>
     
     </div>
 
