@@ -3,6 +3,9 @@ import './MyStyle.css'
 import Sidebar from './Sidebar'
 import ChatArea from './ChatArea'
 import Greetings from './Greetings'
+import CreateGroups from './CreateGroups'
+import UsersGroup from './UsersGroup'
+import { Outlet } from 'react-router-dom'
 
 
 const MainContainer = () => {
@@ -20,9 +23,14 @@ const MainContainer = () => {
 
     <div className='main-container'>
 
+
+      <Outlet/>
+
     <Sidebar />
     {/* <ChatArea props={conversations[0]} /> */}
-    <Greetings/>
+    {/* <Greetings/> */}
+    {/* <CreateGroups /> */}
+    {/* <UsersGroup /> */}
     
     </div>
 
