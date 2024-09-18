@@ -8,7 +8,8 @@ import { Route, Router, Routes } from 'react-router-dom'
 import Greetings from './Components/Greetings'
 import ChatArea from './Components/ChatArea'
 import CreateGroups from './Components/CreateGroups'
-import UsersGroup from './Components/UsersGroup'
+import Users from './Components/Users'
+import Groups from './Components/Groups'
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
               <Route path='greeting' element={<Greetings/>}> </Route>
               <Route path='chat' element={<ChatArea/>}> </Route>
               <Route path='creategroup' element={<CreateGroups/>}></Route>
-              <Route path='groups' element={<UsersGroup/>}> </Route>
+              <Route path='users' element={<Users/>}> </Route>
+              <Route path='groups' element={<Groups/>}> </Route>
 
             </Route>
           

@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 import ChatArea from './ChatArea'
 import Greetings from './Greetings'
 import CreateGroups from './CreateGroups'
-import UsersGroup from './UsersGroup'
+import UsersGroup from './Users'
 import { Outlet } from 'react-router-dom'
 
 

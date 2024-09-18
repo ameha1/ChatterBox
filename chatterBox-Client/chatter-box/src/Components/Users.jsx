@@ -3,14 +3,14 @@ import Logo from'../assets/Logo.png'
 import { IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 
-const UsersGroup = () => {
+const Users = () => {
 
   return (
     <div className="list-container">
         <div className="ug-header">
             <img src={Logo} alt=""
                  style={{height: "3rem", width:"4rem"}} />
-            <p className='ug-title'>Available Groups</p>
+            <p className='ug-title'>Online Users</p>
         </div>
 
         <div className="sb-search">
@@ -18,7 +18,7 @@ const UsersGroup = () => {
                 <SearchIcon/>
             </IconButton>
 
-            <input className='search-box' placeholder='Search for a group' type="text" />
+            <input className='search-box' placeholder='Search for a user' type="text" />
         </div>
 
         <div className="ug-list">
@@ -67,4 +67,4 @@ const UsersGroup = () => {
   )
 }
 
-export default UsersGroup
+export default Users

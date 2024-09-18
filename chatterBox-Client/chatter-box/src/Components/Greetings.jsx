@@ -7,7 +7,7 @@ const Greetings = () => {
     <div className={"greeting-container"}>
       <img src={logo} alt="Logo" className="greeting-logo"/>
       
-      <b>Hi 👋</b>
+      <b>Hello 👋</b>
       <p>View and text directly to people present in the chat Rooms.</p>
     </div>
   )
