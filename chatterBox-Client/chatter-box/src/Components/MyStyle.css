@@ -264,6 +264,8 @@
     color: rgba(0, 0, 0, 0.54);
     border-bottom: 5px solid #63d7b0;
     border-top: 2px solid #63d7b0;
+    border-left: 1px solid #63d7b0;
+    border-right: 1px solid #63d7b0;
     border-radius: 20px;
   }
 

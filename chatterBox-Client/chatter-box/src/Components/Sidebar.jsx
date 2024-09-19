@@ -11,13 +11,16 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import LightModeIcon from '@mui/icons-material/LightMode'
 import SearchIcon from '@mui/icons-material/Search';
+import { toggleTheme } from "../Features/themeSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
 
-  const [lightTheme, setLightTheme] = useState(true)
+  const dispatch = useDispatch();
+  const lightTheme = useSelector((state) => state.themeKey);
 
   const [conversations, SetConversations] = useState([
     {
@@ -84,10 +87,8 @@ const Sidebar = () => {
           <IconButton
           className={"icon" + ((lightTheme)?' ':' dark') } 
           
-          onClick={() =>{
-            setLightTheme((prevValue)=>{
-              return !prevValue;
-            })
+          onClick={() => {
+            dispatch(toggleTheme());
           }}> 
             {lightTheme && <NightlightIcon/>} 
             {!lightTheme && <LightModeIcon/>}
