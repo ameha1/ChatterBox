@@ -2,6 +2,7 @@
 const express = require('express');
 const dotenv = require('dotenv')
 const mongoose = require("mongoose")
+const cors = require("cors")
 
 const userRoutes = require('./Routes/userRoutes')
 
@@ -27,6 +28,10 @@ const connectDB = async () => {
 }
 
 connectDB();
+
+app.use(cors({
+    origin : "*",
+  }));
 
 app.use(express.json());
 
