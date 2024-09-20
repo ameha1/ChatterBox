@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createContext, useState } from 'react'
 import './MyStyle.css'
 import Sidebar from './Sidebar'
 import ChatArea from './ChatArea'
@@ -7,6 +7,7 @@ import CreateGroups from './CreateGroups'
 import UsersGroup from './Users'
 import { Outlet } from 'react-router-dom'
 
+export const myContext = createContext();
 
 const MainContainer = () => {
 
@@ -19,14 +20,18 @@ const MainContainer = () => {
 
   ]);
 
+  const [refresh, setRefresh] = useState(true);
+
   return (
 
     <div className='main-container'>
 
+<     myContext.Provider value={{ refresh: refresh, setRefresh: setRefresh }}>
+        <Outlet />
+        <Sidebar />
+      </myContext.Provider>  
 
-      <Outlet/>
 
-    <Sidebar />
     {/* <ChatArea props={conversations[0]} /> */}
     {/* <Greetings/> */}
     {/* <CreateGroups /> */}

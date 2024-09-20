@@ -65,7 +65,7 @@ const LogIn = () => {
         );
         console.log(response);
         setSignInStatus({ msg: "Success", key: Math.random() });
-        navigate("/app/welcome");
+        navigate("/app/greeting");
         localStorage.setItem("userData", JSON.stringify(response));
         setLoading(false);
       } catch (error) {
