@@ -24,7 +24,7 @@ function App() {
             <Route path='app' element={<MainContainer/>} >
 
               <Route path='greeting' element={<Greetings/>}> </Route>
-              <Route path='chat' element={<ChatArea/>}> </Route>
+              <Route path="chat/:_id" element={<ChatArea />}></Route>
               <Route path='creategroup' element={<CreateGroups/>}></Route>
               <Route path='users' element={<Users/>}> </Route>
               <Route path='groups' element={<Groups/>}> </Route>

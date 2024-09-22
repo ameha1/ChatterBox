@@ -5,6 +5,8 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 
 const userRoutes = require('./Routes/userRoutes')
+const chatRoutes = require('./Routes/chatRoutes')
+const messageRoutes = require('./Routes/messageRoutes')
 
 const app = express();
 
@@ -17,11 +19,11 @@ const connectDB = async () => {
     try {
 
         const connect = await mongoose.connect(process.env.MONGO_URI) ;
-        console.log('server connected successfully!');
+        console.log('Server is connected to MongoDB ...');
         
     } catch (error) {
 
-        console.log('server is NOT connected to DataBase', error.message);
+        console.log('Server is NOT connected to DataBase ', error.message);
     
     }
 
@@ -36,6 +38,8 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/users',userRoutes)
+app.use("/chat", chatRoutes);
+app.use("/message", messageRoutes);
 
 
 const PORT = process.env.PORT || 5000
