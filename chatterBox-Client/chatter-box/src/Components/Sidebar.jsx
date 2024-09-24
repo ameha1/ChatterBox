@@ -15,7 +15,7 @@ import axios from "axios";
 import { refreshSidebarFun } from "../Features/refreshSidebar";
 import { myContext } from "./MainContainer";
 
-function Sidebar() {
+function Sidebar({props}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const lightTheme = useSelector((state) => state.themeKey);
@@ -120,6 +120,14 @@ function Sidebar() {
       <div className={"sb-conversations" + (lightTheme ? "" : " dark")}>
         {conversations.map((conversation, index) => {
           // console.log("current convo : ", conversation);
+          var chatName = ""
+
+          conversation.users.map((user) => {
+            if(user._id != userData.data._id){
+              chatName = user.name;
+            }
+          })
+
           if (conversation.users.length === 1) {
             return <div key={index}></div>;
           }
@@ -142,17 +150,17 @@ function Sidebar() {
                       "chat/" +
                         conversation._id +
                         "&" +
-                        conversation.users[1].name
+                        chatName
                     );
                   }}
                   // dispatch change to refresh so as to update chatArea
                 >
                   <p className={"con-icon" + (lightTheme ? "" : " dark")}>
-                    {conversation.users[1].name[0]}
+                    {chatName[0]}
                   </p>
-                  
+
                   <p className={"con-title" + (lightTheme ? "" : " dark")}>
-                    {conversation.users[1].name}
+                    {chatName}
                   </p>
 
                   <p className="con-lastMessage">
@@ -174,15 +182,15 @@ function Sidebar() {
                     "chat/" +
                       conversation._id +
                       "&" +
-                      conversation.users[1].name
+                      chatName
                   );
                 }}
               >
                 <p className={"con-icon" + (lightTheme ? "" : " dark")}>
-                  {conversation.users[1].name[0]}
+                  {chatName[0]}
                 </p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>
-                  {conversation.users[1].name}
+                  {chatName}
                 </p>
 
                 <p className="con-lastMessage">

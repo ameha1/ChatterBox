@@ -11,14 +11,6 @@ export const myContext = createContext();
 
 const MainContainer = () => {
 
-  const [conversations, SetConversations] = useState([
-    {
-      name: "Ameha",
-      lastMessage: "last Message#1",
-      timeStamp: "Yesterday"
-    },
-
-  ]);
 
   const [refresh, setRefresh] = useState(true);
 

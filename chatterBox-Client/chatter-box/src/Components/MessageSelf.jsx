@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MessageSelf = (props) => {
+const MessageSelf = ({props}) => {
 
   return (
     <div className="self-message-container">

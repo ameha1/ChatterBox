@@ -10,22 +10,19 @@ import Skeleton from "@mui/material/Skeleton";
 import axios from "axios";
 import { myContext } from "./MainContainer";
 
-function ChatArea() {
+function ChatArea({props}) {
   const lightTheme = useSelector((state) => state.themeKey);
   const [messageContent, setMessageContent] = useState("");
   const messagesEndRef = useRef(null);
   const dyParams = useParams();
-  const [chat_id, chat_user] = dyParams._id.split("&");
-  // console.log(chat_id, chat_user);
+  const [chat_id, chat_user] = dyParams._id.split("&");  // Extract chat_id and chat_user dynamically
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [allMessages, setAllMessages] = useState([]);
-  // console.log("Chat area id : ", chat_id._id);
-  // const refresh = useSelector((state) => state.refreshKey);
   const { refresh, setRefresh } = useContext(myContext);
-  const [loaded, setloaded] = useState(false);
-  
+  const [loaded, setLoaded] = useState(false);
+
+  // Function to send messages
   const sendMessage = () => {
-    // console.log("SendMessage Fired to", chat_id._id);
     const config = {
       headers: {
         Authorization: `Bearer ${userData.data.token}`,
@@ -36,36 +33,40 @@ function ChatArea() {
         "http://localhost:5000/message/",
         {
           content: messageContent,
-          chatId: chat_id,
+          chatId: chat_id,  // Send message to the current chat_id
         },
         config
       )
       .then(({ data }) => {
-        console.log("Message Fired");
+        console.log("Message Sent");
+        setMessageContent("");  // Clear input after sending
+        setRefresh(!refresh);  // Refresh the messages
+      })
+      .catch((error) => {
+        console.error("Error sending message:", error);
       });
   };
-  // const scrollToBottom = () => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  // };
 
+  // Fetch messages on component mount and when the chat ID or refresh changes
   useEffect(() => {
-    console.log("Users refreshed");
     const config = {
       headers: {
         Authorization: `Bearer ${userData.data.token}`,
       },
     };
     axios
-      .get("http://localhost:5000/message/" + chat_id, config)
+      .get("http://localhost:5000/message/" + chat_id, config)  // Fetch messages for the current chat_id
       .then(({ data }) => {
         setAllMessages(data);
-        setloaded(true);
-        // console.log("Data from Acess Chat API ", data);
+        setLoaded(true);
+      })
+      .catch((error) => {
+        console.error("Error fetching messages:", error);
       });
-    // scrollToBottom();
   }, [refresh, chat_id, userData.data.token]);
 
   if (!loaded) {
+    // If messages aren't loaded yet, show skeletons
     return (
       <div
         style={{
@@ -77,62 +78,43 @@ function ChatArea() {
           gap: "10px",
         }}
       >
-        <Skeleton
-          variant="rectangular"
-          sx={{ width: "100%", borderRadius: "10px" }}
-          height={60}
-        />
-        <Skeleton
-          variant="rectangular"
-          sx={{
-            width: "100%",
-            borderRadius: "10px",
-            flexGrow: "1",
-          }}
-        />
-        <Skeleton
-          variant="rectangular"
-          sx={{ width: "100%", borderRadius: "10px" }}
-          height={60}
-        />
+        <Skeleton variant="rectangular" sx={{ width: "100%", borderRadius: "10px" }} height={60} />
+        <Skeleton variant="rectangular" sx={{ width: "100%", borderRadius: "10px", flexGrow: "1" }} />
+        <Skeleton variant="rectangular" sx={{ width: "100%", borderRadius: "10px" }} height={60} />
       </div>
     );
   } else {
+    // Display chat area and messages
     return (
       <div className={"chatArea-container" + (lightTheme ? "" : " dark")}>
         <div className={"chatArea-header" + (lightTheme ? "" : " dark")}>
           <p className={"con-icon" + (lightTheme ? "" : " dark")}>
-            {chat_user[0]}
+            {chat_user[0]}  {/* Display first character of chat_user */}
           </p>
           <div className={"header-text" + (lightTheme ? "" : " dark")}>
             <p className={"con-title" + (lightTheme ? "" : " dark")}>
-              {chat_user}
+              {chat_user}  {/* Display full chat_user name */}
             </p>
-            {/* <p className={"con-timeStamp" + (lightTheme ? "" : " dark")}>
-              {props.timeStamp}
-            </p> */}
           </div>
           <IconButton className={"icon" + (lightTheme ? "" : " dark")}>
             <DeleteIcon />
           </IconButton>
         </div>
+
         <div className={"messages-container" + (lightTheme ? "" : " dark")}>
-          {allMessages
-            .slice(0)
-            .reverse()
-            .map((message, index) => {
-              const sender = message.sender;
-              const self_id = userData.data._id;
-              if (sender._id === self_id) {
-                // console.log("I sent it ");
-                return <MessageSelf props={message} key={index} />;
-              } else {
-                // console.log("Someone Sent it");
-                return <MessageOthers props={message} key={index} />;
-              }
-            })}
+          {allMessages.slice(0).reverse().map((message, index) => {
+            const sender = message.sender;
+            const self_id = userData.data._id;
+            if (sender._id === self_id) {
+              return <MessageSelf props={message} key={index} />;
+            } else {
+              return <MessageOthers props={message} key={index} />;
+            }
+          })}
         </div>
+
         <div ref={messagesEndRef} className="BOTTOM" />
+
         <div className={"text-input-area" + (lightTheme ? "" : " dark")}>
           <input
             placeholder="Type a Message"
@@ -142,20 +124,14 @@ function ChatArea() {
               setMessageContent(e.target.value);
             }}
             onKeyDown={(event) => {
-              if (event.code == "Enter") {
-                // console.log(event);
+              if (event.code === "Enter") {
                 sendMessage();
-                setMessageContent("");
-                setRefresh(!refresh);
               }
             }}
           />
           <IconButton
             className={"icon" + (lightTheme ? "" : " dark")}
-            onClick={() => {
-              sendMessage();
-              setRefresh(!refresh);
-            }}
+            onClick={() => sendMessage()}
           >
             <SendIcon />
           </IconButton>
