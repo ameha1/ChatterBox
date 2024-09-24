@@ -8,6 +8,8 @@ const userRoutes = require('./Routes/userRoutes')
 const chatRoutes = require('./Routes/chatRoutes')
 const messageRoutes = require('./Routes/messageRoutes')
 
+const { notFound, errorHandler } = require('./Middleware/errorMiddleware')
+
 const app = express();
 
 dotenv.config()
@@ -40,6 +42,10 @@ app.use(express.json());
 app.use('/users',userRoutes)
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);
+
+
+app.use(notFound);
+app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 5000
