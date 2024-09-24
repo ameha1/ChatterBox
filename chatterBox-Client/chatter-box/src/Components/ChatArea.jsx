@@ -9,8 +9,14 @@ import { useParams } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 import axios from "axios";
 import { myContext } from "./MainContainer";
+import io from "socket.io-client";
 
-function ChatArea({props}) {
+
+const ENDPOINT = "http://localhost:5000";
+
+var socket, chat;
+
+function ChatArea() {
   const lightTheme = useSelector((state) => state.themeKey);
   const [messageContent, setMessageContent] = useState("");
   const messagesEndRef = useRef(null);
@@ -18,8 +24,10 @@ function ChatArea({props}) {
   const [chat_id, chat_user] = dyParams._id.split("&");  // Extract chat_id and chat_user dynamically
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [allMessages, setAllMessages] = useState([]);
+  const [allMessagesCopy, setAllMessagesCopy] = useState([]);
   const { refresh, setRefresh } = useContext(myContext);
   const [loaded, setLoaded] = useState(false);
+  const [socketConnectionStatus, setSocketConnectionStatus] = useState(false);
 
   // Function to send messages
   const sendMessage = () => {
@@ -37,15 +45,41 @@ function ChatArea({props}) {
         },
         config
       )
-      .then(({ data }) => {
-        console.log("Message Sent");
-        setMessageContent("");  // Clear input after sending
-        setRefresh(!refresh);  // Refresh the messages
+      .then(({ response }) => {
+        // console.log("Message Sent");
+        // setMessageContent("");  // Clear input after sending
+        // setRefresh(!refresh);  // Refresh the messages
+
+        data = response;
+
       })
-      .catch((error) => {
-        console.error("Error sending message:", error);
-      });
+      socket.emit("newMessage", data);
+
+      // .catch((error) => {
+      //   console.error("Error sending message:", error);
+      // });
   };
+
+  useEffect(() => {
+
+    socket= io(ENDPOINT);
+    socket.emit("setup", userData);
+    socket.on("connection", ()=> {
+      setSocketConnectionStatus(!socketConnectionStatus)
+    }, [])
+
+  })
+
+  useEffect(() => {
+    socket.on("message received", (newMessage) => {
+      if(!allMessagesCopy || allMessagesCopy._id !== newMessage._id){
+        setAllMessages([...allMessages], newMessage);
+      }
+      else{
+        setAllMessages([...allMessages], newMessage);
+      }
+    })
+  })
 
   // Fetch messages on component mount and when the chat ID or refresh changes
   useEffect(() => {
@@ -59,11 +93,13 @@ function ChatArea({props}) {
       .then(({ data }) => {
         setAllMessages(data);
         setLoaded(true);
-      })
-      .catch((error) => {
-        console.error("Error fetching messages:", error);
+        socket.emit("join chat", chat_id)
       });
-  }, [refresh, chat_id, userData.data.token]);
+      setAllMessagesCopy(allMessages);
+      // .catch((error) => {
+      //   console.error("Error fetching messages:", error);
+      // });
+  }, [refresh, chat_id, userData.data.token, allMessages]);
 
   if (!loaded) {
     // If messages aren't loaded yet, show skeletons
