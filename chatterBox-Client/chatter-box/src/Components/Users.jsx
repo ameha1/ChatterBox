@@ -93,7 +93,7 @@ function Users() {
                     },
                   };
                   axios.post(
-                    "http://localhost:5173/app/chat/",
+                    "http://localhost:5000/chat/",
                     {
                       userId: user._id,
                     },

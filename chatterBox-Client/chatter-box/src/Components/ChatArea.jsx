@@ -23,6 +23,7 @@ function ChatArea() {
   // const refresh = useSelector((state) => state.refreshKey);
   const { refresh, setRefresh } = useContext(myContext);
   const [loaded, setloaded] = useState(false);
+  
   const sendMessage = () => {
     // console.log("SendMessage Fired to", chat_id._id);
     const config = {

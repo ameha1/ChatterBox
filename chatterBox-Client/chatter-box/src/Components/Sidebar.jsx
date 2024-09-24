@@ -150,6 +150,7 @@ function Sidebar() {
                   <p className={"con-icon" + (lightTheme ? "" : " dark")}>
                     {conversation.users[1].name[0]}
                   </p>
+                  
                   <p className={"con-title" + (lightTheme ? "" : " dark")}>
                     {conversation.users[1].name}
                   </p>
