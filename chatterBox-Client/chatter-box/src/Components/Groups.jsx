@@ -90,14 +90,14 @@ const Groups = () => {
                 className={"list-tem" + (lightTheme ? "" : " dark")}
                 key={index}
                 onClick={() => {
-                  console.log("Creating chat with group", group.name);
+                  console.log("Creating chat with group", group.chatName);
                   const config = {
                     headers: {
                       Authorization: `Bearer ${userData.data.token}`,
                     },
                   };
                   axios.post(
-                    "http://localhost:5000/chat/",
+                    "http://localhost:5000/chat/addSelfToGroup",
                     {
                       userId: user._id,
                     },

@@ -194,7 +194,7 @@ function Sidebar({props}) {
                 </p>
 
                 <p className="con-lastMessage">
-                  {conversation.latestMessage.content}
+                  {/* {conversation.latestMessage.content} */}
                 </p>
                 {/* <p className={"con-timeStamp" + (lightTheme ? "" : " dark")}>
                 {conversation.timeStamp}
