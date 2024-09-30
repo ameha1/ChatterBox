@@ -15,8 +15,11 @@ function Users() {
   const { refresh, setRefresh } = useContext(myContext);
 
   const lightTheme = useSelector((state) => state.themeKey);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const userData = JSON.parse(localStorage.getItem("userData"));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [backendData, setBackendData] = useState([]);
+  const [olderData,setolderData] = useState([]);
   // console.log("Data from LocalStorage : ", userData);
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -33,12 +36,41 @@ function Users() {
         Authorization: `Bearer ${userData.data.token}`,
       },
     };
-    axios.get("http://localhost:5000/users/fetchUsers", config).then((data) => {
+    axios.get("http://localhost:5000/users/fetchUsers", config)
+    .then((response) => {
       console.log("UData refreshed in Users panel ");
-      setUsers(data.data);
+      // setUsers(data.data);
       // setRefresh(!refresh);
+      setBackendData(response.data)
+      setolderData(response.data)
     });
   }, [refresh]);
+
+  const searchItems = async (e,name) => {
+
+    e.preventDefault();
+    setSearchTerm(name);
+    let newData = [];
+    let olderdata = [];
+    
+
+    for(let i = 0; i < backendData.length; i++) {
+
+        if(backendData[i].name.replace("        ","").toLowerCase().includes(name)) {
+
+         newData.push(backendData[i]);
+         setBackendData(newData);
+
+        }
+
+        if(Object.keys(name).length === 0){
+          for(let i = 0; i < olderData.length; i++) {
+            olderdata.push(olderData[i]);
+          }
+          setBackendData(Array.from(new Set(olderdata)));
+          
+      }}
+  };
 
   return (
     <AnimatePresence>
@@ -63,6 +95,7 @@ function Users() {
             className={"icon" + (lightTheme ? "" : " dark")}
             onClick={() => {
               setRefresh(!refresh);
+              
             }}
           >
             <RefreshIcon />
@@ -75,10 +108,12 @@ function Users() {
           <input
             placeholder="Search"
             className={"search-box" + (lightTheme ? "" : " dark")}
+            value={searchTerm}
+            onChange={(e) => searchItems(e, e.target.value)}
           />
         </div>
         <div className="ug-list">
-          {users.map((user, index) => {
+          {backendData.map((user, index) => {
             return (
               <motion.div
                 whileHover={{ scale: 1.01 }}

@@ -18,7 +18,11 @@ const Groups = () => {
 
     const lightTheme = useSelector((state) => state.themeKey);
     const dispatch = useDispatch();
-    const [groups, SetGroups] = useState([]);
+    // const [groups, SetGroups] = useState([]);
+    // const [items, searchedItems] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [backendData, setBackendData] = useState([]);
+    const [olderData,setolderData] = useState([]);
     const userData = JSON.parse(localStorage.getItem("userData"));
     // console.log("Data from LocalStorage : ", userData);
     const nav = useNavigate();
@@ -40,9 +44,38 @@ const Groups = () => {
         .get("http://localhost:5000/chat/fetchGroups", config)
         .then((response) => {
           console.log("Group Data from API ", response.data);
-          SetGroups(response.data);
+          // SetGroups(response.data);
+
+          setBackendData(response.data)
+          setolderData(response.data)
         });
     }, [refresh]);
+
+    const searchItems = async (e,chatName) => {
+
+      e.preventDefault();
+      setSearchTerm(chatName);
+      let newData = [];
+      let olderdata = [];
+      
+  
+      for(let i = 0; i < backendData.length; i++) {
+
+          if(backendData[i].chatName.replace("        ","").toLowerCase().includes(chatName)) {
+  
+           newData.push(backendData[i]);
+           setBackendData(newData);
+  
+          }
+  
+          if(Object.keys(chatName).length === 0){
+            for(let i = 0; i < olderData.length; i++) {
+              olderdata.push(olderData[i]);
+            }
+            setBackendData(Array.from(new Set(olderdata)));
+            
+        }}
+    };
 
   return (
     <AnimatePresence>
@@ -79,10 +112,12 @@ const Groups = () => {
           <input
             placeholder="Search"
             className={"search-box" + (lightTheme ? "" : " dark")}
+            value={searchTerm}
+            onChange={(e) => searchItems(e, e.target.value)}
           />
         </div>
         <div className="ug-list">
-          {groups.map((group, index) => {
+          {backendData.map((group, index) => {
             return (
               <motion.div
                 whileHover={{ scale: 1.01 }}

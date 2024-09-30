@@ -153,7 +153,7 @@ function ChatArea() {
 
         <div className={"text-input-area" + (lightTheme ? "" : " dark")}>
           <input
-            placeholder="Type a Message"
+            placeholder=""
             className={"search-box" + (lightTheme ? "" : " dark")}
             value={messageContent}
             onChange={(e) => {
@@ -167,7 +167,13 @@ function ChatArea() {
           />
           <IconButton
             className={"icon" + (lightTheme ? "" : " dark")}
-            onClick={() => sendMessage()}
+            onClick={() => {sendMessage();
+              if (messageContent === '') {
+                document.getElementById('messageInput').value = 'Type a Message'; // Restore placeholder
+              } else {
+                document.getElementById('messageInput').value = ''; // Clear placeholder
+              }
+            }}
           >
             <SendIcon />
           </IconButton>
